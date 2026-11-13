@@ -589,8 +589,14 @@ final class BookmarkManager
      */
     private static function key(Model $model): ?string
     {
-        $key = $model->getKey();
+        return self::keyToString($model->getKey());
+    }
 
+    /**
+     * A key as the string the bookmarks table stores, or null when it is not a usable key.
+     */
+    public static function keyToString(mixed $key): ?string
+    {
         if (! is_int($key) && ! is_string($key) && ! $key instanceof Stringable) {
             return null;
         }
