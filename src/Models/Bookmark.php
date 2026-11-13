@@ -72,6 +72,8 @@ class Bookmark extends Model
 
     /**
      * The model that keeps the bookmark.
+     *
+     * @return MorphTo<Model, $this>
      */
     public function bookmarker(): MorphTo
     {
@@ -80,6 +82,8 @@ class Bookmark extends Model
 
     /**
      * The model that is bookmarked.
+     *
+     * @return MorphTo<Model, $this>
      */
     public function bookmarkable(): MorphTo
     {
@@ -88,6 +92,8 @@ class Bookmark extends Model
 
     /**
      * Only the bookmarks kept by the bookmarker.
+     *
+     * @param  Builder<Bookmark>  $query
      */
     public function scopeWhereBookmarker(Builder $query, Model $bookmarker): void
     {
@@ -96,6 +102,8 @@ class Bookmark extends Model
 
     /**
      * Only the bookmarks of the bookmarkable.
+     *
+     * @param  Builder<Bookmark>  $query
      */
     public function scopeWhereBookmarkable(Builder $query, Model $bookmarkable): void
     {

@@ -27,6 +27,8 @@ trait HasBookmarks
 
     /**
      * The bookmarks this model received.
+     *
+     * @return MorphMany<Bookmark, $this>
      */
     public function bookmarks(): MorphMany
     {
@@ -63,6 +65,8 @@ trait HasBookmarks
 
     /**
      * Only the models the bookmarker bookmarked.
+     *
+     * @param  Builder<static>  $query
      */
     public function scopeWhereBookmarkedBy(Builder $query, Model $bookmarker): void
     {
@@ -73,6 +77,8 @@ trait HasBookmarks
 
     /**
      * Only the models the bookmarker did not bookmark.
+     *
+     * @param  Builder<static>  $query
      */
     public function scopeWhereNotBookmarkedBy(Builder $query, Model $bookmarker): void
     {
@@ -84,6 +90,8 @@ trait HasBookmarks
     /**
      * Add an is_bookmarked column: whether the bookmarker bookmarked each model.
      * The query keeps its own columns, or selects every column of the table.
+     *
+     * @param  Builder<static>  $query
      */
     public function scopeWithBookmarkedBy(Builder $query, Model $bookmarker): void
     {
