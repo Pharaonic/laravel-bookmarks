@@ -7,7 +7,7 @@ test('only unique violations are recognized', function (string $sqlState, ?int $
     $pdo = new PDOException($message);
     $pdo->errorInfo = [$sqlState, $driverCode, $message];
 
-    $exception = new QueryException('insert into "bookmarks" ...', [], $pdo);
+    $exception = new QueryException('testing', 'insert into "bookmarks" ...', [], $pdo);
 
     $this->assertSame($unique, BookmarkManager::isUniqueViolation($exception));
 })->with([

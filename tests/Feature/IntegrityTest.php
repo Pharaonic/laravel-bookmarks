@@ -233,7 +233,7 @@ test('only the pair index is recognized', function (string $sqlState, string $me
     $pdo = new PDOException('SQLSTATE['.$sqlState.']: '.$message);
     $pdo->errorInfo = [$sqlState, $code, $message];
 
-    $this->assertSame($pair, BookmarkManager::isPairViolation(new QueryException('insert ...', [], $pdo), new Bookmark));
+    $this->assertSame($pair, BookmarkManager::isPairViolation(new QueryException('testing', 'insert ...', [], $pdo), new Bookmark));
 })->with([
     'mysql pair' => ['23000', "Duplicate entry 'x' for key 'bookmarks.bookmarks_unique_pair'", 1062, true],
     'mysql other' => ['23000', "Duplicate entry 'x' for key 'bookmarks.bookmarks_slug_unique'", 1062, false],
@@ -257,7 +257,7 @@ function failBookmarkInsertsWith(string $message, string $sqlState = '23000'): s
         $pdo = new PDOException('SQLSTATE['.$sqlState.']: Integrity constraint violation: '.$message);
         $pdo->errorInfo = [$sqlState, $sqlState === '23505' ? 7 : 19, $message];
 
-        throw new QueryException('insert into "bookmarks" ...', [], $pdo);
+        throw new QueryException('testing', 'insert into "bookmarks" ...', [], $pdo);
     });
 
     return $attempts;
@@ -296,7 +296,7 @@ function deadlockBookmarkInserts(int $times): stdClass
         $pdo = new PDOException($message);
         $pdo->errorInfo = ['40001', 1213, 'Deadlock found when trying to get lock; try restarting transaction'];
 
-        throw new QueryException('insert into `bookmarks` ...', [], $pdo);
+        throw new QueryException('testing', 'insert into `bookmarks` ...', [], $pdo);
     });
 
     return $attempts;
