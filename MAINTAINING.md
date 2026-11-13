@@ -42,7 +42,9 @@ Configuration keys (`pharaonic.bookmarks.*`), publish tags, and registered Blade
 - Events are dispatched right after the write's own transaction, so inside a caller's transaction they come before it commits, because `ShouldDispatchAfterCommit` needs Laravel 10.30.
 - Ids are stored as strings (`varchar(64)`), so the bookmark relations compare the parent key as a string in `has()`, `whereHas()`, and `withCount()` (`BookmarksMorphMany`): PostgreSQL refuses `bigint = varchar` and `uuid = varchar`. MySQL uses `CONCAT()` rather than `CAST()`, which fails when the connection collation differs from the table's. A model on another connection cannot be used in `whereHas()`-style subqueries across databases.
 - `phpstan.neon.dist` also analyses `tests/Fixtures`: PHPStan analyses a trait only through a class that uses it.
-- `ConcurrencyTest` runs separate PHP processes against a shared database: a SQLite file by default, MySQL or PostgreSQL through the `BOOKMARKS_DB*` environment variables (`.github/workflows/databases.yml`).
+- `ConcurrencyTest` runs separate PHP processes (`tests/Processes/worker.php`) against a shared database: a SQLite file by default, MySQL or PostgreSQL through the `BOOKMARKS_DB*` environment variables (`.github/workflows/databases.yml`).
+- The published-migration test needs a process where the migration class was never declared. `6.x` runs it as a PHPUnit class in separate processes; Pest cannot, so later lines run `tests/Processes/published-migration.php` as a subprocess.
+- Pest calls a closure it finds in a dataset, so a test that passes a closure as a value has a test of its own instead of a dataset entry.
 
 ## Branch notes
 
