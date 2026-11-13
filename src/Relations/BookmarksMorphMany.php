@@ -103,8 +103,12 @@ final class BookmarksMorphMany extends MorphMany
             return parent::getRelationExistenceQuery($query, $parentQuery, $columns);
         }
 
+        // Built only from identifiers the grammar wrapped; Laravel 13 types raw SQL as a literal string.
+        /** @var literal-string&non-falsy-string $sql */
+        $sql = $parentKeyAsString.' = '.$grammar->wrap($this->getExistenceCompareKey());
+
         $query->select($columns);
-        $query->whereRaw($parentKeyAsString.' = '.$grammar->wrap($this->getExistenceCompareKey()));
+        $query->whereRaw($sql);
         $query->where($query->qualifyColumn($this->getMorphType()), $this->morphClass);
 
         return $query;
