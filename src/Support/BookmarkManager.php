@@ -249,7 +249,7 @@ final class BookmarkManager
         $base = $query->getQuery();
 
         if ($base->columns === null) {
-            $query->select([$base->from.'.*']);
+            $query->select([$bookmarkable->qualifyColumn('*')]);
         }
 
         $query->selectRaw(
