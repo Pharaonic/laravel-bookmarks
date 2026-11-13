@@ -74,6 +74,7 @@
 | `UnexpectedValueException` | reading `meta`; every call | A stored value is not a JSON object; `pharaonic.bookmarks.model` is not a `Bookmark` class. |
 | `LogicException` | writing to a `BookmarkMeta` | Always: metadata is read-only. |
 | `RuntimeException` | `bookmark()`, `bookmarkBy()`, `toggleBookmark()` | A model event cancelled the save, or the row kept being deleted while it was written. |
+| `Illuminate\Database\ClassMorphViolationException` | every method | `Relation::enforceMorphMap()` is on and a model has no alias. Nothing is written. |
 | `Illuminate\Database\QueryException` | every method | Any database error other than the pair's own unique index refusing a duplicate. |
 
 ### Configuration and publish tags

@@ -2,8 +2,8 @@
 
 To add relations, scopes, accessors or casts to bookmarks, extend the package model and name your class in the configuration. Do it before you migrate when your model changes the table or the connection.
 
-```php title="app/Bookmark.php"
-namespace App;
+```php title="app/Models/Bookmark.php"
+namespace App\Models;
 
 use Pharaonic\Laravel\Bookmarks\Models\Bookmark as BaseBookmark;
 
@@ -22,7 +22,7 @@ class Bookmark extends BaseBookmark
 ```
 
 ```php title="config/pharaonic/bookmarks.php"
-'model' => \App\Bookmark::class,
+'model' => \App\Models\Bookmark::class,
 ```
 
 The package then uses your class everywhere: `bookmark()`, `bookmarkOf()` and `toggleBookmark()` return it, `givenBookmarks()` and `bookmarks()` load it, the scopes and the cleanup query its table, and the events carry it.

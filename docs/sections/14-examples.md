@@ -7,9 +7,11 @@ Send the state the user wants, so a double click can't undo itself.
 - ===Routes
 
   ```php title="routes/web.php"
+  use App\Http\Controllers\PostBookmarkController;
+
   Route::middleware('auth')->group(function () {
-      Route::put('posts/{post}/bookmark', 'PostBookmarkController@update');
-      Route::delete('posts/{post}/bookmark', 'PostBookmarkController@destroy');
+      Route::put('posts/{post}/bookmark', [PostBookmarkController::class, 'update']);
+      Route::delete('posts/{post}/bookmark', [PostBookmarkController::class, 'destroy']);
   });
   ```
 
@@ -18,7 +20,7 @@ Send the state the user wants, so a double click can't undo itself.
   ```php title="app/Http/Controllers/PostBookmarkController.php"
   namespace App\Http\Controllers;
 
-  use App\Post;
+  use App\Models\Post;
   use Illuminate\Http\Request;
 
   class PostBookmarkController extends Controller
@@ -51,7 +53,9 @@ Send the state the user wants, so a double click can't undo itself.
 The posts, their bookmark counts, and whether the viewer saved each one come from one query, plus the paginator's count. The route needs `auth`: `withBookmarkedBy()` takes a model, and `$request->user()` is null for a guest.
 
 ```php title="routes/web.php"
-Route::get('feed', 'FeedController@index')->middleware('auth');
+use App\Http\Controllers\FeedController;
+
+Route::get('feed', [FeedController::class, 'index'])->middleware('auth');
 ```
 
 ```php title="app/Http/Controllers/FeedController.php"
@@ -93,7 +97,7 @@ Newest bookmark first, with every type the user saved and their notes:
 $bookmarks = $request->user()->givenBookmarks()->with('bookmarkable')->latest()->paginate(20);
 
 foreach ($bookmarks as $bookmark) {
-    $bookmark->bookmarkable;                   // App\Post, App\Product, ...
+    $bookmark->bookmarkable;                   // App\Models\Post, App\Models\Product, ...
     $bookmark->meta->get('note', '');
 }
 ```
