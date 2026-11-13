@@ -4,8 +4,8 @@
 
 Add `CanBookmark` to the model that bookmarks. It does not have to be a user: a team, a bot or any other model works.
 
-```php title="app/User.php"
-namespace App;
+```php title="app/Models/User.php"
+namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Pharaonic\Laravel\Bookmarks\Concerns\CanBookmark;
@@ -18,8 +18,8 @@ class User extends Authenticatable
 
 Add `HasBookmarks` to the model that is bookmarked. It gives the model its `bookmarks()` relation and query scopes; a model without it can still be bookmarked.
 
-```php title="app/Post.php"
-namespace App;
+```php title="app/Models/Post.php"
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Pharaonic\Laravel\Bookmarks\Concerns\HasBookmarks;

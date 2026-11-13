@@ -5,7 +5,7 @@ subtitle: A user saves a post with a note, and the feed shows what they saved.
 file: routes/web.php
 language: php
 code: |
-  use App\Post;
+  use App\Models\Post;
 
   Route::post('posts/{post}/bookmark', function (Post $post) {
       $bookmark = request()->user()->bookmark($post, [

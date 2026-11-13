@@ -20,8 +20,8 @@ use Pharaonic\Laravel\Bookmarks\Models\Bookmark;
 
 $bookmark = $post->bookmarks()->latest()->first();
 
-$bookmark->bookmarker;     // App\User
-$bookmark->bookmarkable;   // App\Post
+$bookmark->bookmarker;     // App\Models\User
+$bookmark->bookmarkable;   // App\Models\Post
 $bookmark->meta->note;     // "Read later"
 
 $user->givenBookmarks()->with('bookmarkable')->latest()->get()

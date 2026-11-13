@@ -36,7 +36,7 @@ The row was written outside the package with a value that isn't a JSON object. R
 
 A `creating`, `updating` or `saving` listener on the `Bookmark` model returned `false`. The package throws instead of returning a bookmark that isn't stored.
 
-### `The bookmarker [App\User] is not saved`
+### `The bookmarker [App\Models\User] is not saved`
 
 A write was called with a model that isn't saved. Save it first, or check `$model->exists`.
 
