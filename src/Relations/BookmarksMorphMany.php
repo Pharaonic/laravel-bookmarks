@@ -5,7 +5,7 @@ namespace Pharaonic\Laravel\Bookmarks\Relations;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Stringable;
+use Pharaonic\Laravel\Bookmarks\Support\BookmarkManager;
 
 /**
  * The bookmarks relation of a bookmarker or bookmarkable model.
@@ -28,7 +28,7 @@ final class BookmarksMorphMany extends MorphMany
     {
         $key = parent::getParentKey();
 
-        return is_int($key) || is_string($key) || $key instanceof Stringable ? (string) $key : $key;
+        return BookmarkManager::keyToString($key) ?? $key;
     }
 
     /**
@@ -42,8 +42,10 @@ final class BookmarksMorphMany extends MorphMany
         $keys = [];
 
         foreach ($this->getKeys($models, $this->localKey) as $key) {
-            if (is_int($key) || is_string($key) || $key instanceof Stringable) {
-                $keys[] = (string) $key;
+            $key = BookmarkManager::keyToString($key);
+
+            if ($key !== null) {
+                $keys[] = $key;
             }
         }
 
@@ -78,8 +80,12 @@ final class BookmarksMorphMany extends MorphMany
             return parent::getRelationExistenceQuery($query, $parentQuery, $columns);
         }
 
+        // Built only from identifiers the grammar wrapped; Laravel 13 types raw SQL as a literal string.
+        /** @var literal-string&non-falsy-string $sql */
+        $sql = $parentKeyAsString.' = '.$grammar->wrap($this->getExistenceCompareKey());
+
         $query->select($columns);
-        $query->whereRaw($parentKeyAsString.' = '.$grammar->wrap($this->getExistenceCompareKey()));
+        $query->whereRaw($sql);
         $query->where($query->qualifyColumn($this->getMorphType()), $this->morphClass);
 
         return $query;
