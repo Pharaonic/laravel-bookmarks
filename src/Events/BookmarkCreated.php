@@ -14,6 +14,5 @@ final class BookmarkCreated
         public Bookmark $bookmark,
         public Model $bookmarker,
         public Model $bookmarkable,
-    ) {
-    }
+    ) {}
 }
