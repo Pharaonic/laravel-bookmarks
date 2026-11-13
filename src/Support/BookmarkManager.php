@@ -515,8 +515,7 @@ final class BookmarkManager
     /**
      * A query on the bookmarks table without the model's global scopes, which
      * must not hide the row that holds a pair.
-     */
-    /**
+     *
      * @return Builder<Bookmark>
      */
     private static function unscoped(?Bookmark $bookmark = null): Builder
