@@ -200,6 +200,11 @@ final class BookmarkManager
 
     /**
      * The bookmarks kept (bookmarker) or received (bookmarkable) by the model.
+     *
+     * @template TDeclaringModel of Model
+     *
+     * @param  TDeclaringModel  $parent
+     * @return MorphMany<Bookmark, TDeclaringModel>
      */
     public static function relation(Model $parent, string $side): MorphMany
     {
@@ -217,6 +222,10 @@ final class BookmarkManager
 
     /**
      * Limit a bookmarks query to one bookmarker or bookmarkable. An unsaved model matches nothing.
+     *
+     * @template TModel of Model
+     *
+     * @param  Builder<TModel>  $query
      */
     public static function constrain(Builder $query, string $side, Model $model): void
     {
@@ -235,6 +244,11 @@ final class BookmarkManager
     /**
      * Add an is_bookmarked column to a bookmarkables query: whether the
      * bookmarker bookmarked each row, from one EXISTS subquery.
+     *
+     * @template TModel of Model
+     *
+     * @param  Builder<TModel>  $query
+     * @param  TModel  $bookmarkable
      */
     public static function selectBookmarkedBy(Builder $query, Model $bookmarkable, Model $bookmarker): void
     {
@@ -501,6 +515,9 @@ final class BookmarkManager
      * A query on the bookmarks table without the model's global scopes, which
      * must not hide the row that holds a pair.
      */
+    /**
+     * @return Builder<Bookmark>
+     */
     private static function unscoped(?Bookmark $bookmark = null): Builder
     {
         $bookmark = $bookmark ?? self::newModel();
@@ -589,8 +606,14 @@ final class BookmarkManager
      */
     private static function key(Model $model): ?string
     {
-        $key = $model->getKey();
+        return self::keyToString($model->getKey());
+    }
 
+    /**
+     * A key as the string the bookmarks table stores, or null when it is not a usable key.
+     */
+    public static function keyToString(mixed $key): ?string
+    {
         if (! is_int($key) && ! is_string($key) && ! $key instanceof Stringable) {
             return null;
         }

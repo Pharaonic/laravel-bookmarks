@@ -26,6 +26,8 @@ trait CanBookmark
 
     /**
      * The bookmarks this model kept.
+     *
+     * @return MorphMany<Bookmark, $this>
      */
     public function givenBookmarks(): MorphMany
     {
