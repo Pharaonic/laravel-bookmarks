@@ -10,9 +10,9 @@
 use Illuminate\Support\Facades\Event;
 use Pharaonic\Laravel\Bookmarks\Events\BookmarkCreated;
 use Pharaonic\Laravel\Bookmarks\Events\BookmarkUpdated;
-use Pharaonic\Laravel\Bookmarks\Tests\Concurrency\WorkerApplication;
 use Pharaonic\Laravel\Bookmarks\Tests\Fixtures\Post;
 use Pharaonic\Laravel\Bookmarks\Tests\Fixtures\User;
+use Pharaonic\Laravel\Bookmarks\Tests\Processes\WorkerApplication;
 
 require __DIR__.'/../../vendor/autoload.php';
 

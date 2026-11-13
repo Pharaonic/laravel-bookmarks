@@ -1,6 +1,6 @@
 <?php
 
-namespace Pharaonic\Laravel\Bookmarks\Tests\Concurrency;
+namespace Pharaonic\Laravel\Bookmarks\Tests\Processes;
 
 use Pharaonic\Laravel\Bookmarks\Tests\TestCase;
 
