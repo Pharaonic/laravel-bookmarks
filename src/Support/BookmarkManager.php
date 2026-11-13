@@ -266,10 +266,11 @@ final class BookmarkManager
             $query->select([$bookmarkable->qualifyColumn('*')]);
         }
 
-        $query->selectRaw(
-            'exists('.$exists->toSql().') as '.$base->getGrammar()->wrap('is_bookmarked'),
-            $exists->getBindings()
-        );
+        // The subquery's SQL and a wrapped alias; its values stay bindings. Laravel 13 types raw SQL as a literal string.
+        /** @var literal-string&non-falsy-string $sql */
+        $sql = 'exists('.$exists->toSql().') as '.$base->getGrammar()->wrap('is_bookmarked');
+
+        $query->selectRaw($sql, $exists->getBindings());
     }
 
     /**
@@ -514,8 +515,7 @@ final class BookmarkManager
     /**
      * A query on the bookmarks table without the model's global scopes, which
      * must not hide the row that holds a pair.
-     */
-    /**
+     *
      * @return Builder<Bookmark>
      */
     private static function unscoped(?Bookmark $bookmark = null): Builder
