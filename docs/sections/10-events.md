@@ -27,12 +27,17 @@ class ScheduleReminder
 }
 ```
 
-```php title="app/Providers/EventServiceProvider.php"
-protected $listen = [
-    \Pharaonic\Laravel\Bookmarks\Events\BookmarkCreated::class => [
-        \App\Listeners\ScheduleReminder::class,
-    ],
-];
+Laravel discovers the listener in `app/Listeners` from the `BookmarkCreated` type of its `handle()` method. To register it yourself, add it in a service provider:
+
+```php title="app/Providers/AppServiceProvider.php"
+use App\Listeners\ScheduleReminder;
+use Illuminate\Support\Facades\Event;
+use Pharaonic\Laravel\Bookmarks\Events\BookmarkCreated;
+
+public function boot(): void
+{
+    Event::listen(BookmarkCreated::class, ScheduleReminder::class);
+}
 ```
 
 ### When listeners run

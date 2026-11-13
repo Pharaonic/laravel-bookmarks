@@ -135,4 +135,4 @@ public function handle(BookmarkCreated $event)
 }
 ```
 
-Register it for `Pharaonic\Laravel\Bookmarks\Events\BookmarkCreated` in your `EventServiceProvider`. Listen to `BookmarkUpdated` too if a reminder can be turned on later.
+Laravel discovers it from the `BookmarkCreated` type of `handle()`; see [Events](#events) to register it yourself. Listen to `BookmarkUpdated` too if a reminder can be turned on later.
